@@ -14,10 +14,10 @@ void cargarCatalogoDesdeArchivo(std::string nombreArchivo) {
     std::string linea;
     while (std::getline(archivo, linea)) {
       std::istringstream iss(linea);
-      std::string titulo, autor, anio_str;
-      if (std::getline(iss, titulo, ',') && std::getline(iss, autor, ',') && std::getline(iss, anio_str)) {
-        int anio = std::stoi(anio_str);
-        catalogo.push_back(Libro(titulo, autor, anio));
+      std::string titulo, autor, año_str;
+      if (std::getline(iss, titulo, ',') && std::getline(iss, autor, ',') && std::getline(iss, año_str)) {
+        int año = std::stoi(año_str);
+        catalogo.push_back(Libro(titulo, autor, año));
       }
     }
     archivo.close();
