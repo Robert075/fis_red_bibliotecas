@@ -18,3 +18,5 @@ El legado de la luna,James Adams,2017
 La senda del tiempo,Angela Brown,2016
 Entre luces y sombras,Michael Wilson,2013
 Secretos del corazón,Sarah Lopez,2020
+Harry Potter y la piedra filosofal,J.K. Rowling,1997
+
