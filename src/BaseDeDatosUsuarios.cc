@@ -43,7 +43,7 @@ BaseDeDatosUsuarios::~BaseDeDatosUsuarios() {
   std::ofstream password_file("information/usr_pass.txt", std::ios::trunc);
   std::ofstream roles_file("information/usr_roles.txt", std::ios::trunc);
 
-  for (auto user: this->usuarios_) {
+  for (auto& user: this->usuarios_) {
     password_file << user.second.getNombreUsuario() << " ";
     roles_file << user.second.getNombreUsuario() << " ";
     password_file << user.second.getContrasena() << "\n";

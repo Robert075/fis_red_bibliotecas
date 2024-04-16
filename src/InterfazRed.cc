@@ -2,6 +2,7 @@
 
 #include "../include/InterfazRed.h"
 #include "../include/BaseDeDatosLibros.h"
+#include "../include/BaseDeDatosSanciones.h"
 #include <exception>
 #include <iostream>
 #include <limits>
@@ -111,7 +112,19 @@ namespace interfaz_red {
         }
       break;
         case 3:
-          // Realizar reserva
+          // Realizar reserva / pedir préstamo
+          try {
+            BaseDeDatosSanciones baseDatosSanciones;
+            auto* sancion{baseDatosSanciones.ObtenerSanciones(usr)};
+            if (sancion != nullptr) {
+              std::cerr << "Sanción detectada. Detalles de sanción: " << *sancion << "." << std::endl;
+            } else {
+              std::cout << usr << std::endl;
+            }
+          } catch (std::exception const& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+          }
+          break;
         default:
           std::cout << "Opcion no válida\n\n";
       }
