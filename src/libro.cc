@@ -1,7 +1,7 @@
 #include "../include/libro.h"
 
-Libro::Libro(const std::string& titulo, const std::string& autor, int añoPublicacion, bool disponible)
-    : titulo(titulo), autor(autor), añoPublicacion(añoPublicacion), disponible(disponible) {}
+Libro::Libro(const std::string& titulo, const std::string& autor, int añoPublicacion)
+    : titulo(titulo), autor(autor), añoPublicacion(añoPublicacion) {}
 
 std::string Libro::getTitulo() const {
     return titulo;
@@ -15,9 +15,6 @@ int Libro::getAñoPublicacion() const {
     return añoPublicacion;
 }
 
-bool Libro::getDisponibilidad() const{
-  return disponible;
-}
 
 std::string Libro::EliminarEspacios(const std::string& text) const {
   std::string new_str = text;

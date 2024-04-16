@@ -4,9 +4,9 @@
 #include <stdexcept>
 
 BaseDeDatosLibros::BaseDeDatosLibros() {
-    std::string filename = "../information/library_catalog.txt";
+    std::string filename = "information/library_catalog.txt";
     std::ifstream book_catalog(filename);
-    if (!book_catalog.is_open()) {
+    if (!book_catalog) {
       throw std::runtime_error("No se pudo abrir el archivo del catálogo de libros: " + filename);
     }
 
@@ -18,7 +18,7 @@ BaseDeDatosLibros::BaseDeDatosLibros() {
         try {
             book_id = std::stoi(book_id_str);
         } catch (std::exception& exception) {
-            throw std::logic_error("Excepción al leer el book_id. Nan");
+            throw std::logic_error("Excepción al leer el book_id. Nan -> " + book_id_str);
         }
         std::string library_name;
         book_catalog >> library_name;
