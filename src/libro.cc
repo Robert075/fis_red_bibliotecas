@@ -11,7 +11,7 @@ std::string Libro::getAutor() const {
     return autor;
 }
 
-int Libro::getanioPublicacion() const {
+int Libro::getAnioPublicacion() const {
     return anioPublicacion;
 }
 
