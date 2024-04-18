@@ -105,6 +105,7 @@ namespace interfaz_red {
               if (std::get<2>(book_entry.second)) {
                 const Libro& libro = std::get<0>(book_entry.second);
                 std::cout << libro.getTitulo() << " - " << libro.getAutor() << " (" << libro.getAnioPublicacion() << ")\n";
+                std::cout << libro.getTitulo() << " - " << libro.getAutor() << " (" << libro.getAnoPublicacion() << ")\n";
               }
           }
         } catch (const std::exception& e) {

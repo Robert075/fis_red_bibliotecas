@@ -1,7 +1,10 @@
 #include "../include/libro.h"
 
+
 Libro::Libro(const std::string& titulo, const std::string& autor, int anioPublicacion)
     : titulo(titulo), autor(autor), anioPublicacion(anioPublicacion) {}
+
+
 
 std::string Libro::getTitulo() const {
     return titulo;
@@ -11,9 +14,10 @@ std::string Libro::getAutor() const {
     return autor;
 }
 
+
 int Libro::getAnioPublicacion() const {
     return anioPublicacion;
-}
+
 
 
 std::string Libro::EliminarEspacios(const std::string& text) const {

@@ -44,7 +44,7 @@ public:
     }
     std::string getTitulo() const;
     std::string getAutor() const;
-    int getAnioPublicacion() const;
+    getAnioPublicacion() const;
 };
 
 #endif // LIBRO_H
