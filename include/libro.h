@@ -13,11 +13,11 @@ private:
     std::string AgregarEspacios(const std::string&) const;
     std::string titulo;
     std::string autor;
-    int anoPublicacion;
+    int anioPublicacion;
 
 public:
     Libro() = default;
-    Libro(const std::string& titulo, const std::string& autor, int añoPublicacion);
+    Libro(const std::string& titulo, const std::string& autor, int anioPublicacion);
     friend std::istream& operator>>(std::istream& is, Libro& libro) {
       std::string temp_str;
       is >> temp_str;
@@ -29,7 +29,7 @@ public:
       libro.autor = libro.AgregarEspacios(temp_str);
       is >> temp_str;
       try {
-        libro.anoPublicacion = std::stoi(temp_str);
+        libro.anioPublicacion = std::stoi(temp_str);
       } catch (std::exception& exception) {
         throw std::logic_error("Excepcion al leer año de publicacion de libro. NaN");
       }
@@ -39,12 +39,12 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Libro& libro) {
       os << libro.EliminarEspacios(libro.getTitulo()) << " ";
       os << libro.EliminarEspacios(libro.getAutor()) << " ";
-      os << libro.getAnoPublicacion() << " ";
+      os << libro.getAnioPublicacion() << " ";
       return os;
     }
     std::string getTitulo() const;
     std::string getAutor() const;
-    int getAnoPublicacion() const;
+    int getAnioPublicacion() const;
 };
 
 #endif // LIBRO_H

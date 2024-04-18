@@ -24,7 +24,7 @@ void Biblioteca::mostrarCatalogo() const {
     std::cout << "Catálogo de libros:\n";
     for (const Libro& libro : catalogo) {
         std::cout << "Título: " << libro.getTitulo() << ", Autor: " << libro.getAutor() 
-                  << ", Año de publicación: " << libro.getAnoPublicacion() << "\n";
+                  << ", Año de publicación: " << libro.getAnioPublicacion() << "\n";
     }
 }
 

@@ -1,7 +1,10 @@
 #include "../include/libro.h"
 
-Libro::Libro(const std::string& titulo, const std::string& autor, int anoPublicacion)
-    : titulo(titulo), autor(autor), anoPublicacion(anoPublicacion) {}
+
+Libro::Libro(const std::string& titulo, const std::string& autor, int anioPublicacion)
+    : titulo(titulo), autor(autor), anioPublicacion(anioPublicacion) {}
+
+
 
 std::string Libro::getTitulo() const {
     return titulo;
@@ -11,8 +14,9 @@ std::string Libro::getAutor() const {
     return autor;
 }
 
-int Libro::getAnoPublicacion() const {
-    return anoPublicacion;
+
+int Libro::getAnioPublicacion() const {
+    return anioPublicacion;
 }
 
 
