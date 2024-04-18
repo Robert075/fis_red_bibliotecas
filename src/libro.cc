@@ -17,7 +17,7 @@ std::string Libro::getAutor() const {
 
 int Libro::getAnioPublicacion() const {
     return anioPublicacion;
-
+}
 
 
 std::string Libro::EliminarEspacios(const std::string& text) const {
