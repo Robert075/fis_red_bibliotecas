@@ -1,7 +1,7 @@
 #include "../include/libro.h"
 
-Libro::Libro(const std::string& titulo, const std::string& autor, int añoPublicacion)
-    : titulo(titulo), autor(autor), añoPublicacion(añoPublicacion) {}
+Libro::Libro(const std::string& titulo, const std::string& autor, int anoPublicacion)
+    : titulo(titulo), autor(autor), anoPublicacion(anoPublicacion) {}
 
 std::string Libro::getTitulo() const {
     return titulo;
@@ -11,9 +11,11 @@ std::string Libro::getAutor() const {
     return autor;
 }
 
-int Libro::getAñoPublicacion() const {
-    return añoPublicacion;
+int Libro::getAnoPublicacion() const {
+    return anoPublicacion;
 }
+
+
 std::string Libro::EliminarEspacios(const std::string& text) const {
   std::string new_str = text;
   for (unsigned int i{0}; i < new_str.size(); ++i) {

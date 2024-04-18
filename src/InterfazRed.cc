@@ -1,8 +1,10 @@
 
 
 #include "../include/InterfazRed.h"
+#include "../include/BaseDeDatosLibros.h"
 #include <exception>
 #include <iostream>
+#include <limits>
 
 namespace interfaz_red {
   bool IniciarSesion(BaseDeDatosUsuarios& base_datos, std::string& username) noexcept {
@@ -36,6 +38,7 @@ namespace interfaz_red {
       std::cout << "Opcion: ";
       std::string str_opcion;
       std::cin >> str_opcion;
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       int int_opcion;
       try {
         int_opcion = std::stoi(str_opcion);
@@ -72,6 +75,7 @@ namespace interfaz_red {
 
 
   void MenuUsuario(const std::string& usr) {
+    (void)usr;
     bool flag = true;
     while (flag) {
       std::cout << "1. Salir.\n";
@@ -91,8 +95,21 @@ namespace interfaz_red {
         case 1:
           return;
         case 2:
-          // Mostrar libros disponibles
-          break;
+        try {
+          BaseDeDatosLibros baseDatosLibros;
+          const std::map<unsigned int, std::tuple<Libro, Biblioteca, bool>>& libros = baseDatosLibros.getLibros();
+
+          std::cout << "Libros disponibles:\n";
+          for (const auto& book_entry : libros) {
+              if (std::get<2>(book_entry.second)) {
+                const Libro& libro = std::get<0>(book_entry.second);
+                std::cout << libro.getTitulo() << " - " << libro.getAutor() << " (" << libro.getAnoPublicacion() << ")\n";
+              }
+          }
+        } catch (const std::exception& e) {
+          std::cerr << "Error: " << e.what() << std::endl;
+        }
+      break;
         case 3:
           // Realizar reserva
         default:

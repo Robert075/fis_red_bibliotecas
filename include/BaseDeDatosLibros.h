@@ -4,16 +4,19 @@
 #include "libro.h"
 
 #include <map>
+#include <tuple>
 
 typedef std::string Biblioteca;
 class BaseDeDatosLibros {
 
+  public:
   BaseDeDatosLibros();
   ~BaseDeDatosLibros();
+  const std::map<unsigned int, std::tuple<Libro, Biblioteca, bool>>& getLibros() const;
 
   private:
     bool modified_;
-    std::map<unsigned int, std::pair<Libro, Biblioteca>> libros_;
+    std::map<unsigned int, std::tuple<Libro, Biblioteca, bool>> libros_; // Guarda el libro, su bibliteca y si está disponible o no
 };
 
 
