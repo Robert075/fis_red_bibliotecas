@@ -24,6 +24,11 @@ class Prestamo {
     Fecha FechaInicio() const { return this->fecha_inicio_; }
     Fecha FechaFin() const { return this->fecha_fin_; }
     unsigned int LibroID() const { return this->libro_id_; }
+
+    void SetUsuario(const std::string& usuario) { this->usuario_ = usuario; }
+    void SetFechaInicio(const Fecha& fechaInicio) { this->fecha_inicio_ = fechaInicio; }
+    void SetFechaFin(const Fecha& fechaFin) { this->fecha_fin_ = fechaFin; }
+    void SetLibroID(unsigned int libroID) { this->libro_id_ = libroID; }
     
   private:
     std::string usuario_;

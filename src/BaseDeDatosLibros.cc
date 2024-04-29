@@ -34,6 +34,29 @@ const std::map<unsigned int, std::tuple<Libro, Biblioteca, bool>>& BaseDeDatosLi
   return libros_;
 }
 
+bool BaseDeDatosLibros::consultarDisponibilidad(unsigned int idLibro) const{
+    auto it = libros_.find(idLibro); // Buscar el libro por su ID
+    if (it != libros_.end()) { // Si se encontró el libro
+        const auto& libroInfo = it->second;
+        bool disponible = std::get<2>(libroInfo); 
+        // Obtener la disponibilidad del libro
+        return disponible;
+    } else {
+        return false; // El libro no está en la base de datos
+    }
+}
+
+bool BaseDeDatosLibros::existeLibro(unsigned int idLibro) const {
+    // Buscar el libro por su ID
+    auto it = libros_.find(idLibro);
+    // Verificar si se encontró el libro
+    if (it != libros_.end()) {
+        return true; // El libro existe
+    } else {
+        return false; // El libro no existe
+    }
+}
+
 BaseDeDatosLibros::~BaseDeDatosLibros() {
     if (!this->modified_) {
         return;
@@ -45,5 +68,17 @@ BaseDeDatosLibros::~BaseDeDatosLibros() {
         catalog << book_entry.first << " "; // Id de libro
         catalog << std::get<1>(book_entry.second) << " "; // Biblioteca
         catalog << std::get<2>(book_entry.second) << "\n"; // Disponibilidad
+    }
+}
+
+void BaseDeDatosLibros::actualizarDisponibilidad(unsigned int idLibro, bool nuevaDisponibilidad) {
+    // Buscar el libro por su ID
+    auto it = libros_.find(idLibro);
+    // Verificar si se encontró el libro
+    if (it != libros_.end()) {
+        // Modificar la disponibilidad del libro
+        std::get<2>(it->second) = nuevaDisponibilidad;
+        // Indicar que la base de datos ha sido modificada
+        this->modified_ = true;
     }
 }

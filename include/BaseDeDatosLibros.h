@@ -13,6 +13,9 @@ class BaseDeDatosLibros {
   BaseDeDatosLibros();
   ~BaseDeDatosLibros();
   const std::map<unsigned int, std::tuple<Libro, Biblioteca, bool>>& getLibros() const;
+  bool consultarDisponibilidad(unsigned int idLibro) const;
+  bool existeLibro(unsigned int idLibro) const;
+  void actualizarDisponibilidad(unsigned int idLibro, bool nuevaDisponibilidad);
 
   private:
     bool modified_;

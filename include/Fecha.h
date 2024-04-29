@@ -32,6 +32,10 @@ class Fecha {
     unsigned int Mes() const { return this->mes_; }
     unsigned int Dia() const { return this->dia_; }
 
+    void AgregarDias(unsigned int dias);
+    unsigned int DiasEnMes(unsigned int anio, unsigned int mes) const;
+    bool EsBisiesto(unsigned int anio) const;
+  
   private:
     unsigned int anio_;
     unsigned int mes_;

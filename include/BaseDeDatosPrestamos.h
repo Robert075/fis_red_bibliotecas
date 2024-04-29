@@ -2,7 +2,9 @@
 #define BASE_DE_DATOS_PRESTAMOS_H
 
 #include "Prestamo.h"
+#include "BaseDeDatosLibros.h"
 #include "libro.h"
+#include "Fecha.h"
 #include <map>
 #include <string>
 #include <set>
@@ -21,6 +23,8 @@ class BaseDeDatosPrestamos {
     bool TienePrestamos(const std::string& usr) const;
 
     inline void AñadirPrestamo(const std::string&, const Prestamo&);
+
+    bool SolicitarPrestamo(const std::string& nombreUsuario, unsigned int idLibro, BaseDeDatosLibros& baseDeDatosLibros);
 
 
   private:
