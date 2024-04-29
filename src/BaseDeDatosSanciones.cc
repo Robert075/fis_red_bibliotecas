@@ -13,7 +13,8 @@ BaseDeDatosSanciones::BaseDeDatosSanciones() {
   Sancion sanction;
   std::string username;
   while (sanction_file >> username >> sanction) {
-    this->sanciones_.insert(std::make_pair(username, sanction)); 
+    this->sanciones_.insert(std::make_pair(username, sanction));
+    if (sanction.getIDSancion() > newest_id_) { newest_id_ = sanction.getIDSancion(); }
   }
   this->modified_ = false;
   return;
@@ -44,7 +45,13 @@ bool BaseDeDatosSanciones::TieneSanciones(const std::string& usr) const {
   return true;
 }
 
-inline void BaseDeDatosSanciones::AñadirSancion(const std::string& usr, const Sancion& sancion) {
-  this->sanciones_.insert(std::make_pair(usr, sancion));
-  return;
+// inline bool BaseDeDatosSanciones::AñadirSancion(const std::string& usr, const Sancion& sancion) {
+//   this->sanciones_.insert(std::make_pair(usr, sancion));
+//   return;
+// }
+
+bool BaseDeDatosSanciones::AñadirSancion(const std::string& usr, const Fecha& fecha, const std::string& motivo) {
+  int id = GenerarID();
+  auto insertion = sanciones_.insert(std::make_pair(usr, Sancion(fecha, id, motivo)));
+  return insertion.second; // bool que indica si se insertó
 }

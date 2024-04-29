@@ -19,12 +19,14 @@ class BaseDeDatosSanciones {
 
     bool TieneSanciones(const std::string& usr) const;
 
-    inline void AñadirSancion(const std::string&, const Sancion&);
-
+    // inline bool AñadirSancion(const std::string&, const Sancion&); // mejor usar el otro método
+    bool AñadirSancion(const std::string& usr, const Fecha& fecha, const std::string& motivo);
 
   private:
+    int GenerarID() { return newest_id_++; } // OJO: estamos modificando newest_id
     std::map<std::string, Sancion> sanciones_;
     bool modified_;
+    int newest_id_;
 };
 
 

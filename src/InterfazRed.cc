@@ -26,7 +26,16 @@ namespace interfaz_red {
     return base_datos.RegistrarUsuario(username, passwd);
   }
 
-
+  bool RegistrarSancion(BaseDeDatosSanciones& base_datos, std::string& username) noexcept {
+    std::cout << "Introduzca fecha límite de sanción: ";
+    Fecha fecha_limite;
+    // OJO: no estamos haciendo comprobaciones
+    std::cin >> fecha_limite;
+    std::cout << "Introduzca motivo de la sanción: ";
+    std::string motivo{};
+    std::cin >> motivo;
+    return base_datos.AñadirSancion(username, fecha_limite, motivo);
+  }
 
   std::string PantallaInicio(BaseDeDatosUsuarios& base_datos) {
     bool autenticado = false; 
