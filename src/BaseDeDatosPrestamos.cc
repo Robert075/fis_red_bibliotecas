@@ -73,7 +73,7 @@ bool BaseDeDatosPrestamos::SolicitarPrestamo(const std::string& nombreUsuario, u
     AñadirPrestamo(nombreUsuario, nuevoPrestamo);
 
     // Actualizar la disponibilidad del libro en la base de datos de libros
-    baseDeDatosLibros.actualizarDisponibilidad(idLibro, false);
+    baseDeDatosLibros.actualizarDisponibilidad(idLibro, !disponible);
 
     // Si el libro está disponible, procedemos a realizar el préstamo
     if (TienePrestamos(nombreUsuario) && !baseDeDatosLibros.consultarDisponibilidad(idLibro)) {
