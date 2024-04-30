@@ -113,7 +113,6 @@ namespace interfaz_red {
         }
       break;
         case 3:
-          // Realizar reserva / pedir préstamo
           try {
             BaseDeDatosSanciones baseDatosSanciones;
             auto* sancion = baseDatosSanciones.ObtenerSanciones(usr);

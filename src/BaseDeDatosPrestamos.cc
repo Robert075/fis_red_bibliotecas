@@ -44,15 +44,15 @@ bool BaseDeDatosPrestamos::SolicitarPrestamo(const std::string& nombreUsuario, u
 
     // Verificar si el libro existe en la base de datos
     if (!baseDeDatosLibros.existeLibro(idLibro)) {
-        std::cerr << "El libro con ID " << idLibro << " no existe en la base de datos." << std::endl;
-        return false;
+      std::cerr << "El libro con ID " << idLibro << " no existe en la base de datos." << std::endl;
+      return false;
     }
     
     // Verificar la disponibilidad del libro
     bool disponible = baseDeDatosLibros.consultarDisponibilidad(idLibro);
     if (!disponible) {
-        std::cerr << "El libro no está disponible para préstamo en este momento." << std::endl;
-        return false;
+      std::cerr << "El libro no está disponible para préstamo en este momento." << std::endl;
+      return false;
     }
 
     // Obtener la fecha actual
@@ -71,18 +71,13 @@ bool BaseDeDatosPrestamos::SolicitarPrestamo(const std::string& nombreUsuario, u
 
     // Añadir el préstamo a la base de datos de préstamos
     AñadirPrestamo(nombreUsuario, nuevoPrestamo);
+    this->modified_ = true;
 
     // Actualizar la disponibilidad del libro en la base de datos de libros
     baseDeDatosLibros.actualizarDisponibilidad(idLibro, !disponible);
 
-    // Si el libro está disponible, procedemos a realizar el préstamo
-    if (TienePrestamos(nombreUsuario) && !baseDeDatosLibros.consultarDisponibilidad(idLibro)) {
-        std::cout << "El préstamo se realizó con éxito." << std::endl;
-        return true;
-    } else {
-        std::cerr << "No se pudo realizar el préstamo." << std::endl;
-        return false;
-    }
+    std::cout << "El préstamo se realizó con éxito." << std::endl;
+    return true;
 }
 
 bool BaseDeDatosPrestamos::TienePrestamos(const std::string& usr) const {
