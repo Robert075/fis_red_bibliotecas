@@ -28,7 +28,8 @@ std::istream& operator>>(std::istream& is, Sancion& sancion) {
   std::getline(is, aux);
   std::stringstream line{sancion.EliminarBarras(aux)};
   line >> sancion.limiteSancion_ >> sancion.IDSancion_;
-  if (!(line >> sancion.motivoSancion_)) {
+  std::getline(line, sancion.motivoSancion_);
+  if (sancion.motivoSancion_.empty()) {
     sancion.motivoSancion_ = kDefaultMotivo;
   }
   return is;

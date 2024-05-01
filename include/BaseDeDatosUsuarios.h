@@ -12,6 +12,11 @@ struct InformacionUsario {
   Role role_;
 };
 
+enum class EstadoUsuario {
+  EXISTE,
+  NOEXISTE,
+  NONE
+};
 
 class BaseDeDatosUsuarios {
   public:
@@ -50,12 +55,20 @@ class BaseDeDatosUsuarios {
      * @brief Crea un nuevo usuario. Por defecto, el rol del usuario será "user"
      */
     bool RegistrarUsuario(const std::string&, const std::string&, Role rol = Role::USER);
-  private:
-    /**
-     * @brief Comprueba si un nombre de usuario existe en la base de datos
-     * @return True si se creo el usuario. False si el nombre de usuario ya existe
+
+     /**
+      * @brief Muestra por pantalla la una lista de todos los usuarios con el rol "User" en el sistema
      */
-    bool ExisteUsuario(const std::string&) const;
+    void MostrarUsuarios() const;
+
+    /**
+     * @brief Comprueba si un usuario existe en el sistema
+     * @param usr_name El nombre del usuario a comprobar
+     * @return True si existe. False en otro caso
+    */
+    bool ExisteUsuario(const std::string& usr_name) const;
+
+  private:
     std::map<std::string, Usuario> usuarios_;
     bool modified_;
     

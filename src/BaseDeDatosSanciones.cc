@@ -27,22 +27,25 @@ BaseDeDatosSanciones::~BaseDeDatosSanciones() {
   std::ofstream sanction_file("information/usr_sanctions.txt", std::ios::trunc);
 
   for (auto& sanction_info: this->sanciones_) {
-    sanction_file << sanction_info.first << " " << sanction_info.second;
+    sanction_file << sanction_info.first << " " << sanction_info.second << "\n";
   }
 }
 
-Sancion const* BaseDeDatosSanciones::ObtenerSanciones(const std::string& usr) const {
+std::vector<Sancion> BaseDeDatosSanciones::ObtenerSanciones(const std::string& usr) const {
   if (!this->TieneSanciones(usr)) {
-    return nullptr;
+    return std::vector<Sancion>(); // Devuelve un vector vacío
   }
-  return &this->sanciones_.at(usr);
+  auto sancion = this->sanciones_.find(usr);
+  std::vector<Sancion> lista_sanciones;
+  while (sancion->first == usr) {
+    lista_sanciones.push_back(sancion->second);
+    sancion++;
+  }
+  return lista_sanciones;
 }
 
 bool BaseDeDatosSanciones::TieneSanciones(const std::string& usr) const {
-  if (this->sanciones_.find(usr) == this->sanciones_.end()) {
-    return false;
-  }
-  return true;
+  return (this->sanciones_.find(usr) != this->sanciones_.end());
 }
 
 // inline bool BaseDeDatosSanciones::AñadirSancion(const std::string& usr, const Sancion& sancion) {
@@ -52,6 +55,7 @@ bool BaseDeDatosSanciones::TieneSanciones(const std::string& usr) const {
 
 bool BaseDeDatosSanciones::AñadirSancion(const std::string& usr, const Fecha& fecha, const std::string& motivo) {
   int id = GenerarID();
-  auto insertion = sanciones_.insert(std::make_pair(usr, Sancion(fecha, id, motivo)));
-  return insertion.second; // bool que indica si se insertó
+  sanciones_.insert(std::make_pair(usr, Sancion(fecha, id, motivo)));
+  this->modified_ = true;
+  return true;
 }

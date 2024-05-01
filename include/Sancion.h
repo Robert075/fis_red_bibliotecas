@@ -8,7 +8,7 @@
 
 #include "Fecha.h"
 
-const std::string kDefaultMotivo{"No especificado"};
+static const std::string kDefaultMotivo{"No especificado"};
 
 class Sancion {
 private:

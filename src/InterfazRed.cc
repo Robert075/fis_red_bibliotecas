@@ -37,6 +37,83 @@ namespace interfaz_red {
     return base_datos.AñadirSancion(username, fecha_limite, motivo);
   }
 
+  std::string CrearMotivo() {
+    std::string motivo;
+    std::cout << "Introduce el motivo de la sanción: ";
+    std::cin.ignore(); // Limpiamos la entrada estandar
+    std::getline(std::cin, motivo); // Lee la linea completa, con espacios incluidos
+    return motivo;
+  }
+
+  void MostrarSanciones(const std::vector<Sancion>& sanciones) {
+    for (auto sancion: sanciones) {
+      Fecha fecha_limite = sancion.getLimiteSancion();
+      std::cout << "Fecha de expiración: " << fecha_limite.Anio() << "/";
+      std::cout << fecha_limite.Mes() << "/" << fecha_limite.Dia();
+      std::cout << " | Motivo: " << sancion.getMotivo() << "\n";
+    }
+    return;
+  }
+
+  Fecha CrearFecha() {
+    std::cout << "Indique el año: ";
+    std::string anio;
+    std::cin >> anio;
+    unsigned int anio_num = 0;
+    try {
+      anio_num = std::stoi(anio); // No se comprueba si el numero es negativo, ni si el año es anterior al actual
+    } catch (std::exception& except) {
+      throw std::logic_error("El año introducido no es un numero");
+    }
+    std::cout << "Indique el mes: ";
+    std::string mes;
+    std::cin >> mes;
+    unsigned int mes_num = 0;
+    try {
+      mes_num = std::stoi(mes); // No se comprueba si el numero es negativo, ni si es un mes adecuado (1-12 / 0-11).
+    } catch (std::exception& except) {
+      throw std::logic_error("El mes introducido no es un numero");
+    }
+    std::cout << "Indique el día: ";
+    std::string dia;
+    std::cin >> dia;
+    unsigned int dia_num = 0;
+    try {
+      dia_num = std::stoi(dia); // No se comprueba si es un día de mes válido
+    } catch (std::exception& except) {
+      throw std::logic_error("El dia introducido no es un numero");
+    }
+
+    return Fecha(anio_num, mes_num, dia_num);
+  }
+
+  std::string SeleccionarUsuario() {
+    BaseDeDatosUsuarios base_de_datos;
+    std::cout << "Usuarios del sistema:\n";
+    base_de_datos.MostrarUsuarios();
+    EstadoUsuario usr_state = EstadoUsuario::NONE;
+    std::string user_name;
+    while (usr_state == EstadoUsuario::NONE) {
+      std::cout << "Seleccione un usuario: ";
+      std::cin >> user_name;
+      if (!base_de_datos.ExisteUsuario(user_name)) {
+        std::cout << "El usuario '" << user_name << "' no existe.\n";
+        std::cout << "¿Quiere volver a intentarlo? (s/n): ";
+        std::string option;
+        std::cin >>  option;
+        if (option == "n") {
+          usr_state = EstadoUsuario::NOEXISTE;
+        }
+      } else {
+        usr_state = EstadoUsuario::EXISTE;
+      }
+    }
+    if (usr_state == EstadoUsuario::EXISTE) {
+      return user_name;
+    }
+    return std::string(); // Devuelve un string vacío
+  }
+
   std::string PantallaInicio(BaseDeDatosUsuarios& base_datos) {
     bool autenticado = false; 
     std::string username;
@@ -124,16 +201,65 @@ namespace interfaz_red {
           // Realizar reserva / pedir préstamo
           try {
             BaseDeDatosSanciones baseDatosSanciones;
-            auto* sancion{baseDatosSanciones.ObtenerSanciones(usr)};
-            if (sancion != nullptr) {
-              std::cerr << "Sanción detectada. Detalles de sanción: " << *sancion << "." << std::endl;
+            auto sanciones{baseDatosSanciones.ObtenerSanciones(usr)};
+            if (!sanciones.empty()) {
+              std::cerr << "Sanción detectada. No puede realizar préstamos. Detalles:\n";
+              MostrarSanciones(sanciones);
             } else {
+              std::cout << "NO IMPLEMENTADO\n";
               std::cout << usr << std::endl;
             }
           } catch (std::exception const& e) {
             std::cerr << "Error: " << e.what() << std::endl;
           }
           break;
+        default:
+          std::cout << "Opcion no válida\n\n";
+      }
+    }
+  }
+
+  void MenuBibliotecario(const std::string& usr) {
+    (void)usr;
+    bool flag = true;
+    while (flag) {
+      std::cout << "1. Salir.\n";
+      std::cout << "2. Aplicar Sanción\n";
+      std::cout << "Opcion: ";
+      std::string opcion;
+      std::cin >> opcion;
+      int num_opcion;
+      try {
+        num_opcion = std::stoi(opcion);
+      } catch (std::exception& exception) {
+        std::cout << "Opcion no válida\n\n";
+        continue;
+      }
+      switch (num_opcion) {
+        case 1:
+          return;
+        case 2:
+        try {
+          std::string usuario_a_sancionar = SeleccionarUsuario();
+          if (usuario_a_sancionar.empty()) {
+            return; // No se seleccionó ningún usuario
+          }
+
+          Fecha limite_sancion = CrearFecha();
+          std::string motivo = CrearMotivo();
+
+          BaseDeDatosSanciones datos_sanciones;
+          if (!datos_sanciones.AñadirSancion(usuario_a_sancionar, limite_sancion, motivo)) {
+            std::cout << "No se pudo crear la sanción\n";
+          } else {
+            std::cout << "La sanción se creó con éxito\n";
+          }
+
+          
+        } catch (const std::exception& e) {
+          std::cerr << "Error: " << e.what() << std::endl;
+        }
+      break;
         default:
           std::cout << "Opcion no válida\n\n";
       }

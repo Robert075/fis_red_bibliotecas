@@ -6,3 +6,4 @@ ola user
 palermo user
 pedrito user
 pepe user
+rob librarian
