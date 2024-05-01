@@ -15,20 +15,22 @@ class BaseDeDatosPrestamos {
     BaseDeDatosPrestamos();
     ~BaseDeDatosPrestamos();
 
+    
     /**
      * @brief Devuelve un puntero constante a los prestamos que tiene un usuario. Si no tiene prestamos, devuelve nullptr
      */
-    const std::set<Prestamo>* ObtenerPrestamos(const std::string& usr) const;
+    std::vector<Prestamo> ObtenerPrestamos(const std::string& usr) const;
+
 
     bool TienePrestamos(const std::string& usr) const;
 
     inline void AñadirPrestamo(const std::string&, const Prestamo&);
 
-    bool SolicitarPrestamo(const std::string& nombreUsuario, unsigned int idLibro, BaseDeDatosLibros& baseDeDatosLibros);
+    bool SolicitarPrestamo(const std::string& nombreUsuario, unsigned int idLibro);
 
 
   private:
-    std::map<std::string, std::set<Prestamo>> prestamos_;
+    std::multimap<std::string, Prestamo> prestamos_;
     bool modified_;
 };
 

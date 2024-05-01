@@ -81,9 +81,7 @@ unsigned int Fecha::DiasEnMes(unsigned int anio, unsigned int mes) const {
         return 30;
     }
     // Meses con 31 días
-    else {
-        return 31;
-    }
+    return 31;
 }
 
 bool Fecha::EsBisiesto(unsigned int anio) const {
@@ -91,3 +89,12 @@ bool Fecha::EsBisiesto(unsigned int anio) const {
     return (anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0);
 }
 
+std::string Fecha::EliminarBarras(const std::string& text) const {
+  std::string new_str = text;
+  for (auto& character: new_str) {
+    if (character == '/') {
+      character = ' ';
+    }
+  }
+  return new_str;
+}

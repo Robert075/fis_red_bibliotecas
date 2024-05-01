@@ -48,10 +48,6 @@ bool BaseDeDatosSanciones::TieneSanciones(const std::string& usr) const {
   return (this->sanciones_.find(usr) != this->sanciones_.end());
 }
 
-// inline bool BaseDeDatosSanciones::AñadirSancion(const std::string& usr, const Sancion& sancion) {
-//   this->sanciones_.insert(std::make_pair(usr, sancion));
-//   return;
-// }
 
 bool BaseDeDatosSanciones::AñadirSancion(const std::string& usr, const Fecha& fecha, const std::string& motivo) {
   int id = GenerarID();

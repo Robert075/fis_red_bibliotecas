@@ -7,6 +7,8 @@
 class Prestamo {
   public:
     Prestamo() = default;
+    Prestamo(const std::string& usuario, Fecha fecha_inicio, Fecha fecha_fin, unsigned int libro_id): 
+    usuario_(usuario), fecha_inicio_(fecha_inicio), fecha_fin_(fecha_fin), libro_id_(libro_id) {};
 
     friend std::istream& operator>>(std::istream& is, Prestamo& prestamo) {
       is >> prestamo.usuario_ >> prestamo.libro_id_ >> prestamo.fecha_inicio_ >> prestamo.fecha_fin_;
@@ -14,7 +16,7 @@ class Prestamo {
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Prestamo& prestamo) {
-      os << prestamo.usuario_ << prestamo.libro_id_ << prestamo.fecha_inicio_ << prestamo.fecha_fin_;
+      os << prestamo.usuario_ << " " << prestamo.libro_id_ << " " << prestamo.fecha_inicio_ << " " << prestamo.fecha_fin_;
       return os;
     }
 
