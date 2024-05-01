@@ -1,6 +1,7 @@
 #include "../include/Sancion.h"
 
-Sancion::Sancion(const std::string& fecha) {
+Sancion::Sancion(const std::string& fecha, const int id, const std::string& motivo) :
+  IDSancion_{id}, motivoSancion_{motivo} {
   std::stringstream stream{EliminarBarras(fecha)};
   stream >> limiteSancion_;
 }
@@ -17,13 +18,19 @@ std::string Sancion::EliminarBarras(const std::string& text) const {
 
 std::ostream& operator<<(std::ostream& os, const Sancion& sancion) {
   os << sancion.limiteSancion_.Dia() << "/" << sancion.limiteSancion_.Mes();
-  os << "/" << sancion.limiteSancion_.Anio();
+  os << "/" << sancion.limiteSancion_.Anio() << " " << sancion.getIDSancion();
+  os << " " << sancion.getMotivo();
   return os;
 }
 
 std::istream& operator>>(std::istream& is, Sancion& sancion) {
   std::string aux;
-  is >> aux;
-  std::stringstream{sancion.EliminarBarras(aux)} >> sancion.limiteSancion_;
+  std::getline(is, aux);
+  std::stringstream line{sancion.EliminarBarras(aux)};
+  line >> sancion.limiteSancion_ >> sancion.IDSancion_;
+  std::getline(line, sancion.motivoSancion_);
+  if (sancion.motivoSancion_.empty()) {
+    sancion.motivoSancion_ = kDefaultMotivo;
+  }
   return is;
 }

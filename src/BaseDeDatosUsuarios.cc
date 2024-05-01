@@ -108,3 +108,12 @@ bool BaseDeDatosUsuarios::RegistrarUsuario(const std::string& username, const st
   return true;
 }
 
+
+void BaseDeDatosUsuarios::MostrarUsuarios() const {
+  for (auto usr: this->usuarios_) {
+    if (usr.second.getRol() == Role::USER) { // Solo mostrar a los usuarios
+      std::cout << usr.second.getNombreUsuario() << "\n";
+    }
+  }
+  return;
+}
