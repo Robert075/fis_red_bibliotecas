@@ -13,7 +13,8 @@ BaseDeDatosSanciones::BaseDeDatosSanciones() {
   Sancion sanction;
   std::string username;
   while (sanction_file >> username >> sanction) {
-    this->sanciones_.insert(std::make_pair(username, sanction)); 
+    this->sanciones_.insert(std::make_pair(username, sanction));
+    if (sanction.getIDSancion() > newest_id_) { newest_id_ = sanction.getIDSancion(); }
   }
   this->modified_ = false;
   return;
@@ -26,25 +27,35 @@ BaseDeDatosSanciones::~BaseDeDatosSanciones() {
   std::ofstream sanction_file("information/usr_sanctions.txt", std::ios::trunc);
 
   for (auto& sanction_info: this->sanciones_) {
-    sanction_file << sanction_info.first << " " << sanction_info.second;
+    sanction_file << sanction_info.first << " " << sanction_info.second << "\n";
   }
 }
 
-Sancion const* BaseDeDatosSanciones::ObtenerSanciones(const std::string& usr) const {
+std::vector<Sancion> BaseDeDatosSanciones::ObtenerSanciones(const std::string& usr) const {
   if (!this->TieneSanciones(usr)) {
-    return nullptr;
+    return std::vector<Sancion>(); // Devuelve un vector vacío
   }
-  return &this->sanciones_.at(usr);
+  auto sancion = this->sanciones_.find(usr);
+  std::vector<Sancion> lista_sanciones;
+  while (sancion->first == usr) {
+    lista_sanciones.push_back(sancion->second);
+    sancion++;
+  }
+  return lista_sanciones;
 }
 
 bool BaseDeDatosSanciones::TieneSanciones(const std::string& usr) const {
-  if (this->sanciones_.find(usr) == this->sanciones_.end()) {
-    return false;
-  }
-  return true;
+  return (this->sanciones_.find(usr) != this->sanciones_.end());
 }
 
-inline void BaseDeDatosSanciones::AñadirSancion(const std::string& usr, const Sancion& sancion) {
-  this->sanciones_.insert(std::make_pair(usr, sancion));
-  return;
+// inline bool BaseDeDatosSanciones::AñadirSancion(const std::string& usr, const Sancion& sancion) {
+//   this->sanciones_.insert(std::make_pair(usr, sancion));
+//   return;
+// }
+
+bool BaseDeDatosSanciones::AñadirSancion(const std::string& usr, const Fecha& fecha, const std::string& motivo) {
+  int id = GenerarID();
+  sanciones_.insert(std::make_pair(usr, Sancion(fecha, id, motivo)));
+  this->modified_ = true;
+  return true;
 }

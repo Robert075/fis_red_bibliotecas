@@ -4,6 +4,8 @@
 #define INTERFAZ_RED_H
 
 #include "BaseDeDatosUsuarios.h"
+#include "../include/Sancion.h"
+#include "Fecha.h"
 
 namespace interfaz_red {
   /**
@@ -25,11 +27,40 @@ namespace interfaz_red {
    */
   std::string PantallaInicio(BaseDeDatosUsuarios& base_datos);
 
+  /**
+   * @brief Inicia el menú de opciones para un usuario con el rol "USER"
+  */
   void MenuUsuario(const std::string&);
 
+  /**
+   * @brief Inicia el menú de opciones para un usuario con el rol "LIBRARIAN"
+  */
   void MenuBibliotecario(const std::string&);
 
+  /**
+   * @brief Incia el menú de opciones para un usuario con el rol "ADMIN"
+  */
   void MenuAdministrador(const std::string&);
+
+  /**
+   * @brief Permite seleccionar un usuario existente en la base de datos.
+   * @return El nombre del usuario si existe y fue seleccionado. Si no seleccionó ninguno
+   * devolverá un string vacío.
+  */
+  std::string SeleccionarUsuario();
+  
+  /**
+   * @brief Solicita por linea de comandos una fecha.
+   * @return Un objeto de tipo Fecha, con los valores especificados
+  */
+  Fecha CrearFecha();
+
+  std::string CrearMotivo();
+
+  /**
+   * @brief Muestra las sanciones almacenadas en el vector, incluyendo los motivos y fechas de vencimiento
+  */
+  void MostrarSanciones(const std::vector<Sancion>& sanciones);
 }
 
 #endif
