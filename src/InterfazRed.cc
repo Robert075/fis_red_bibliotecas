@@ -3,6 +3,7 @@
 #include "../include/InterfazRed.h"
 #include "../include/BaseDeDatosLibros.h"
 #include "../include/BaseDeDatosSanciones.h"
+#include "../include/BaseDeDatosPrestamos.h"
 #include <exception>
 #include <iostream>
 #include <limits>
@@ -198,21 +199,53 @@ namespace interfaz_red {
         }
       break;
         case 3:
-          // Realizar reserva / pedir préstamo
           try {
             BaseDeDatosSanciones baseDatosSanciones;
+            BaseDeDatosLibros libros;
             auto sanciones{baseDatosSanciones.ObtenerSanciones(usr)};
             if (!sanciones.empty()) {
               std::cerr << "Sanción detectada. No puede realizar préstamos. Detalles:\n";
               MostrarSanciones(sanciones);
             } else {
-              std::cout << "NO IMPLEMENTADO\n";
-              std::cout << usr << std::endl;
+
+              std::cout << "Quiere mostrar la lista de libros disponibles? (s/n): ";
+              std::string opcion_libros_disponibles ;
+              std::cin >> opcion_libros_disponibles;
+              if (opcion_libros_disponibles != "n") {
+                libros.MostrarLibros();
+              }
+
+              int idLibro;
+              std::string idLibroStr;
+              bool libro_disponible = false;
+              do {
+                std::cout << "Ingrese el ID del libro que desea reservar (-1 para cancelar): ";
+                std::cin >> idLibroStr;
+                try {
+                  idLibro = std::stoi(idLibroStr);
+                } catch (std::exception& except) {
+                  std::cout << "Debes introducir un numero entero\n";
+                  continue;
+                }
+                libro_disponible = libros.consultarDisponibilidad(idLibro);
+                if (!libro_disponible && idLibro != -1) {
+                  std::cout << "No existe el libro con id o no está disponible " << idLibroStr << "\n";
+                }
+              } while (!libro_disponible && idLibro != -1);
+
+              if (idLibro == -1) {
+                std::cout << "Reserva cancelada\n";
+                break;
+              }
+
+              // Realizar el préstamo
+              BaseDeDatosPrestamos baseDatosPrestamos;
+              baseDatosPrestamos.SolicitarPrestamo(usr, idLibro);
             }
-          } catch (std::exception const& e) {
+        } catch (std::exception const& e) {
             std::cerr << "Error: " << e.what() << std::endl;
-          }
-          break;
+        }
+        break;
         default:
           std::cout << "Opcion no válida\n\n";
       }

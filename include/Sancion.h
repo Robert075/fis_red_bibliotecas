@@ -12,8 +12,6 @@ static const std::string kDefaultMotivo{"No especificado"};
 
 class Sancion {
 private:
-    // Métodos privados
-    std::string EliminarBarras(const std::string&) const;
     // Atributos privados
     Fecha limiteSancion_{};
     int IDSancion_{};

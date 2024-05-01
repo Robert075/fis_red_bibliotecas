@@ -22,8 +22,9 @@ BaseDeDatosLibros::BaseDeDatosLibros() {
         }
         std::string library_name;
         book_catalog >> library_name;
-        bool disponible;
-        book_catalog >> disponible;
+        char disponible_char;
+        book_catalog >> disponible_char;
+        bool disponible = (disponible_char == '0' ? false : true);
 
         this->libros_[book_id] = {libro, library_name, disponible};
     }
@@ -34,16 +35,62 @@ const std::map<unsigned int, std::tuple<Libro, Biblioteca, bool>>& BaseDeDatosLi
   return libros_;
 }
 
+bool BaseDeDatosLibros::consultarDisponibilidad(unsigned int idLibro) const{
+    auto it = libros_.find(idLibro); // Buscar el libro por su ID
+    if (it != libros_.end()) { // Si se encontró el libro
+        const auto& libroInfo = it->second;
+        bool disponible = std::get<2>(libroInfo); 
+        // Obtener la disponibilidad del libro
+        return disponible;
+    } else {
+        return false; // El libro no está en la base de datos
+    }
+}
+
+bool BaseDeDatosLibros::existeLibro(unsigned int idLibro) const {
+    // Buscar el libro por su ID
+    auto it = libros_.find(idLibro);
+    // Verificar si se encontró el libro
+    if (it != libros_.end()) {
+        return true; // El libro existe
+    } else {
+        return false; // El libro no existe
+    }
+}
+
 BaseDeDatosLibros::~BaseDeDatosLibros() {
     if (!this->modified_) {
         return;
     }
-    std::ofstream catalog("../information/library_catalog.txt", std::ios::trunc);
+    std::ofstream catalog("information/library_catalog.txt", std::ios::trunc);
     for (const auto& book_entry : this->libros_) {
         const Libro& libro = std::get<0>(book_entry.second);
         catalog << libro << " "; // Titulo, autor y fecha
         catalog << book_entry.first << " "; // Id de libro
         catalog << std::get<1>(book_entry.second) << " "; // Biblioteca
-        catalog << std::get<2>(book_entry.second) << "\n"; // Disponibilidad
+        catalog << (std::get<2>(book_entry.second) == true ? '1' : '0') << "\n"; // Disponibilidad
+    }
+}
+
+void BaseDeDatosLibros::actualizarDisponibilidad(unsigned int idLibro, bool nuevaDisponibilidad) {
+    // Buscar el libro por su ID
+    auto it = libros_.find(idLibro);
+    // Verificar si se encontró el libro
+    if (it != libros_.end()) {
+        // Modificar la disponibilidad del libro
+        it->second = std::make_tuple(std::get<0>(it->second), std::get<1>(it->second), nuevaDisponibilidad);
+        // Indicar que la base de datos ha sido modificada
+        this->modified_ = true;
+    }
+}
+
+
+void BaseDeDatosLibros::MostrarLibros() const {
+    for (auto libro: this->libros_) {
+        std::cout << "ID: " << libro.first << " | Libro: " << std::get<0>(libro.second).getTitulo();
+        std::cout << " | Autor: " << std::get<0>(libro.second).getAutor();
+        std::cout << " | Disponibilidad: " << RED_TEXT;
+        std::cout << (std::get<2>(libro.second) ? (std::string(GREEN_TEXT) + "Está disponible") : (std::string(RED_TEXT) + "No está disponible"));
+        std::cout << RESET_TEXT << "\n";
     }
 }

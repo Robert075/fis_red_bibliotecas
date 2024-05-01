@@ -13,7 +13,7 @@ class BaseDeDatosSanciones {
     ~BaseDeDatosSanciones();
 
     /**
-     * @brief Devuelve un puntero constante a la sanción que tiene un usuario. Si no tiene, devuelve nullptr
+     * @brief Devuelve un vector con las sanciones. Si no hay sanciones, el vector estará vacío
      */
     std::vector<Sancion> ObtenerSanciones(const std::string& usr) const;
 
